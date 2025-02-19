@@ -12,8 +12,6 @@ function createGameboard(){
             setTimeout(updateSpaces,waitTime);
             setTimeout(updateBanner,waitTime,name1,name2);
             setTimeout(updateResult,waitTime, "");
-
-            console.log(gameboard)
         }
         else{
             updateSpaces();
@@ -62,10 +60,6 @@ function createGameboard(){
         banner.innerHTML = `${moveCount%2?name2: name1}'s turn`;
     }
 
-    function displayboard(){
-        console.log(gameboard);
-        console.log(moveCount);
-    }
     function winCheck(){
         for(let i=0; i<3; i++){
             let smart_var = 0;
@@ -106,7 +100,7 @@ function createGameboard(){
         return false;
     }
     
-    return {updateResult,refresh,getMoveCount,makeMove,winCheck,displayboard,updateBanner,populateSpaces,updateSpaces};
+    return {updateResult,refresh,getMoveCount,makeMove,winCheck,updateBanner,populateSpaces,updateSpaces};
 
     // function isDraw(){
     //     //  more advanced feature of this game that
