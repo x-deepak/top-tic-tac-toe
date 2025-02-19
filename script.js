@@ -3,9 +3,23 @@
 function createGameboard(){
     let gameboard = [[null, null, null],[null, null, null],[null, null, null]];
     let moveCount = 0;
-    function refresh(){
+    function refresh(name1,name2,instantRefresh=false){
         moveCount = 0;
         gameboard = [[null, null, null],[null, null, null],[null, null, null]];
+        if (!instantRefresh){
+            console.log("Clearing board in 2 secs..")
+            let waitTime = 2000;
+            setTimeout(updateSpaces,waitTime);
+            setTimeout(updateBanner,waitTime,name1,name2);
+            setTimeout(updateResult,waitTime, "");
+
+            console.log(gameboard)
+        }
+        else{
+            updateSpaces();
+            updateBanner(name1,name2);
+            updateResult("");
+        }
     }
     function getMoveCount(){ return moveCount;}
     function makeMove(i,j){
@@ -114,17 +128,20 @@ let main_function = (function TicTac(){
     let playerX = createPlayer(0,"Player 1");
     let playerY = createPlayer(1,"Player 2");
     
+    
     function playRound(){
         let round = createGameboard();
         round.populateSpaces();
         round.updateBanner(playerX.name, playerY.name);
+        
+        let reset_btn = document.querySelector(".reset-btn");
+        reset_btn.addEventListener("click",()=>{ round.refresh(playerX.name, playerY.name,true)});
 
         let container = document.querySelector(".container");
         
         container.addEventListener("click", event => {
             let id = event.target.id.at(2);
             if(id>=0 && id<9){
-                console.log("fired")
                 let i = Math.floor(id/3);
                 let j = id%3;
                 round.makeMove(i,j);
@@ -133,12 +150,12 @@ let main_function = (function TicTac(){
                     let victorName = (round.getMoveCount()%2==0)? playerY.name: playerX.name;
                     let msg = `${victorName} Won!`
                     round.updateResult(msg);
-                    round.refresh();
+                    round.refresh(playerX.name, playerY.name);
                     return;
                 }
-                if(round.moveCount>=9) {
-                    updateResult("Draw");
-                    round.refresh();
+                if(round.getMoveCount()>=9) {
+                    round.updateResult("Draw");
+                    round.refresh(playerX.name, playerY.name);
                 }
                 round.updateBanner(playerX.name, playerY.name);
             }

@@ -50,3 +50,7 @@ body{
     justify-content: center;
     align-items: center;
 }
+
+.reset-btn{
+    font-size: 20px;
+}
